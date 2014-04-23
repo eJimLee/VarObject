@@ -1519,6 +1519,167 @@ VarObject operator>>(bool l, const VarObject &r){
 	return VarObject(l) >> r;
 }
 
+/* += */
+const VarObject& operator+=(VarObject &l, const VarObject &r) {
+	return l = l + r;
+}
+const VarObject& operator+=(VarObject &l, long long r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, int r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, double r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, bool r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, string &r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, const char *r) {
+	return (l += VarObject(r));
+}
+const VarObject& operator+=(VarObject &l, vector<VarObject> &r) {
+	return (l += VarObject(r));
+}
+
+/* -= */
+const VarObject& operator-=(VarObject &l, const VarObject &r) {
+	return l = l - r;
+}
+const VarObject& operator-=(VarObject &l, long long r) {
+	return (l -= VarObject(r));
+}
+const VarObject& operator-=(VarObject &l, int r) {
+	return (l -= VarObject(r));
+}
+const VarObject& operator-=(VarObject &l, double r) {
+	return (l -= VarObject(r));
+}
+const VarObject& operator-=(VarObject &l, bool r) {
+	return (l -= VarObject(r));
+}
+
+/* *= */
+const VarObject& operator*=(VarObject &l, const VarObject &r) {
+	return l = l * r;
+}
+const VarObject& operator*=(VarObject &l, long long r) {
+	return (l *= VarObject(r));
+}
+const VarObject& operator*=(VarObject &l, int r) {
+	return (l *= VarObject(r));
+}
+const VarObject& operator*=(VarObject &l, double r) {
+	return (l *= VarObject(r));
+}
+const VarObject& operator*=(VarObject &l, bool r) {
+	return (l *= VarObject(r));
+}
+
+/* /= */
+const VarObject& operator/=(VarObject &l, const VarObject &r) {
+	return l = l / r;
+}
+const VarObject& operator/=(VarObject &l, long long r) {
+	return (l /= VarObject(r));
+}
+const VarObject& operator/=(VarObject &l, int r) {
+	return (l /= VarObject(r));
+}
+const VarObject& operator/=(VarObject &l, double r) {
+	return (l /= VarObject(r));
+}
+const VarObject& operator/=(VarObject &l, bool r) {
+	return (l /= VarObject(r));
+}
+
+/* &= */
+const VarObject& operator&=(VarObject &l, const VarObject &r) {
+	return l = l & r;
+}
+const VarObject& operator&=(VarObject &l, long long r) {
+	return (l &= VarObject(r));
+}
+const VarObject& operator&=(VarObject &l, int r) {
+	return (l &= VarObject(r));
+}
+const VarObject& operator&=(VarObject &l, bool r) {
+	return (l &= VarObject(r));
+}
+
+/* |= */
+const VarObject& operator|=(VarObject &l, const VarObject &r) {
+	return l = l | r;
+}
+const VarObject& operator|=(VarObject &l, long long r) {
+	return (l |= VarObject(r));
+}
+const VarObject& operator|=(VarObject &l, int r) {
+	return (l |= VarObject(r));
+}
+const VarObject& operator|=(VarObject &l, bool r) {
+	return (l |= VarObject(r));
+}
+
+/* ^= */
+const VarObject& operator^=(VarObject &l, const VarObject &r) {
+	return l = l ^ r;
+}
+const VarObject& operator^=(VarObject &l, long long r) {
+	return (l ^= VarObject(r));
+}
+const VarObject& operator^=(VarObject &l, int r) {
+	return (l ^= VarObject(r));
+}
+const VarObject& operator^=(VarObject &l, bool r) {
+	return (l ^= VarObject(r));
+}
+
+/* %= */
+const VarObject& operator%=(VarObject &l, const VarObject &r) {
+	return l = l % r;
+}
+const VarObject& operator%=(VarObject &l, long long r) {
+	return (l %= VarObject(r));
+}
+const VarObject& operator%=(VarObject &l, int r) {
+	return (l %= VarObject(r));
+}
+const VarObject& operator%=(VarObject &l, bool r) {
+	return (l %= VarObject(r));
+}
+
+/* <<= */
+const VarObject& operator<<=(VarObject &l, const VarObject &r) {
+	return l = l << r;
+}
+const VarObject& operator<<=(VarObject &l, long long r) {
+	return (l <<= VarObject(r));
+}
+const VarObject& operator<<=(VarObject &l, int r) {
+	return (l <<= VarObject(r));
+}
+const VarObject& operator<<=(VarObject &l, bool r) {
+	return (l <<= VarObject(r));
+}
+
+/* >>= */
+const VarObject& operator>>=(VarObject &l, const VarObject &r) {
+	return l = l >> r;
+}
+const VarObject& operator>>=(VarObject &l, long long r) {
+	return (l >>= VarObject(r));
+}
+const VarObject& operator>>=(VarObject &l, int r) {
+	return (l >>= VarObject(r));
+}
+const VarObject& operator>>=(VarObject &l, bool r) {
+	return (l >>= VarObject(r));
+}
+
 VarObject::operator bool(void) {
 	switch(Type) {
 	case TNull:
