@@ -5,12 +5,12 @@ Provides a variable class with weak type.
 
 1. Support Base Type:
 --------------------
-a) long long     (TInteger)
-b) double        (TFloat)
-c) bool          (TBool)
-d) string        (TString)
-e) vector<Var>   (TList)
-f) map<Var, Var> (TDict)
+		a) long long     (TInteger)
+		b) double        (TFloat)
+		c) bool          (TBool)
+		d) string        (TString)
+		e) vector<Var>   (TList)
+		f) map<Var, Var> (TDict)
 
 2. Overview:
 --------------------
@@ -42,8 +42,8 @@ support all valid operator overload, eg:
 3. More example:
 --------------------
 reference test.cpp for more detail.
-
 there are some simple example:
+
 		using namespace var;
 		int main(void) {
 			Var a = 2, b = "abc", c = true, d = 3.4;
