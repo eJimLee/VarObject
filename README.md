@@ -26,6 +26,7 @@ Provides a variable class with weak type.
 
 ### 2.2 Overload operator:
 support all valid operator overload, eg:
+
 		TInteger: + - * / & | ^ ~ ! >> << ...
 		TList: + * ! +=
 		...
