@@ -27,8 +27,9 @@
 #ifndef __VAROBJECT_H__
 #define __VAROBJECT_H__
 
-#include <vector>
 #include <string>
+#include <vector>
+#include <map>
 
 #include "vartype.h"
 
@@ -47,6 +48,7 @@ public:
 	VarObject(string s);
 	VarObject(const char *s);
 	VarObject(const vector<VarObject> &l);
+	VarObject(const map<VarObject, VarObject> &d);
 	VarObject(VarType t);
 
 public:
@@ -62,19 +64,21 @@ public:
 	operator double(void);
 	operator string(void);
 	operator vector<VarObject>&(void);
+	operator map<VarObject, VarObject>&(void);
 
 public:
 	/* operator */
 	/* assign */
 	VarObject& operator=(const VarObject &src);
-	VarObject& operator=(long long i);
-	VarObject& operator=(int i);
-	VarObject& operator=(double f);
-	VarObject& operator=(bool b);
+	VarObject& operator=(const long long &i);
+	VarObject& operator=(const int &i);
+	VarObject& operator=(const double &f);
+	VarObject& operator=(const bool &b);
 	VarObject& operator=(const string &s);
 	VarObject& operator=(const char *s);
-	VarObject& operator=(vector<VarObject> &list);
-	VarObject& operator=(VarType t);
+	VarObject& operator=(const vector<VarObject> &list);
+	VarObject& operator=(const map<VarObject, VarObject> &dict);
+	VarObject& operator=(const VarType &t);
 
 	/* + */
 	friend VarObject operator+(const VarObject &l, const VarObject &r);
@@ -406,10 +410,13 @@ public:
 	friend bool operator!(const VarObject &l);
 
 	/* [] */
-	VarObject operator[](size_t idx);
-	VarObject operator[](long long idx);
-	VarObject operator[](int idx);
-	VarObject operator[](const VarObject &idx);
+	VarObject& operator[](const VarObject &idx);
+	VarObject& operator[](const long long &idx);
+	VarObject& operator[](const int &idx);
+	VarObject& operator[](const bool &idx);
+	VarObject& operator[](const double &idx);
+	VarObject& operator[](const string &idx);
+	VarObject& operator[](const char *idx);
 
 protected:
 	VarType Type;
@@ -420,23 +427,25 @@ protected:
 	};
 	string String;
 	vector<VarObject> List;
+	map<VarObject, VarObject> Dict;
 
 private:
 	void Copy(const VarObject &src);
 	void Clear(void);
-	stringstream& ToStr(stringstream &s) const;
+	ostream& ToStr(ostream &s) const;
 
 private:
 	long long ToInteger(void);
 	double    ToFloat(void);
 	bool      ToBool(void);
 	string    ToString(void);
-	void FromInteger(long long i);
-	void FromFloat(double d);
-	void FromBool(bool b);
+	void FromInteger(const long long &i);
+	void FromFloat(const double &d);
+	void FromBool(const bool &b);
 	void FromString(const string &s);
 	void FromString(const char *s);
-	void FromList(vector<VarObject> &list);
+	void FromList(const vector<VarObject> &list);
+	void FromDict(const map<VarObject, VarObject> &dict);
 };
 
 /* some helper */

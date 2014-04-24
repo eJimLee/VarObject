@@ -135,7 +135,7 @@ VarObject operator+(const VarObject &left, const VarObject &right) {
 		}
 		return tmp;
 	}
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw;
 	}
@@ -221,7 +221,7 @@ VarObject operator-(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -337,7 +337,7 @@ VarObject operator*(const VarObject &left, const VarObject &right) {
 		}
 		return tmp;
 	}
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -441,7 +441,7 @@ VarObject operator/(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -502,7 +502,7 @@ VarObject operator&(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -563,7 +563,7 @@ VarObject operator|(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -624,7 +624,7 @@ VarObject operator^(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -685,7 +685,7 @@ VarObject operator%(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -746,7 +746,7 @@ VarObject operator<<(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -807,7 +807,7 @@ VarObject operator>>(const VarObject &left, const VarObject &right) {
 		OPTERROR(left, right);
 		throw ErrorType;
 		return tmp;
-	default:
+	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
 	}
@@ -879,6 +879,8 @@ bool operator==(const VarObject &left, const VarObject &right) {
 	{
 		switch(right.Type) {
 		case TList:
+			return (left.List == right.List);
+#if 0
 		{
 			size_t llen = left.List.size();
 			size_t rlen = right.List.size();
@@ -891,12 +893,20 @@ bool operator==(const VarObject &left, const VarObject &right) {
 			}
 			return true;
 		}
+#endif
 		default:
 			return false;
 		}
 	}
-	default:
-		return false;
+	case TDict:
+	{
+		switch(right.Type) {
+		case TDict:
+			return (left.Dict == right.Dict);
+		default:
+			return false;
+		}
+	}
 	}
 }
 
@@ -990,8 +1000,18 @@ bool operator<(const VarObject &left, const VarObject &right) {
 			return false;
 		}
 	}
-	default:
-		return false;
+	case TDict:
+	{
+		switch(right.Type) {
+		case TDict:
+			return (left.Dict < right.Dict);
+		case TList:
+		case TString:
+			return true;
+		default:
+			return false;
+		}
+	}
 	}
 }
 
@@ -1694,6 +1714,8 @@ VarObject::operator bool(void) {
 		return !(String.empty() || String.length() == 0);
 	case TList:
 		return !(List.size() == 0);
+	case TDict:
+		return !(Dict.size() == 0);
 	}
 }
 
@@ -1711,6 +1733,22 @@ VarObject::operator double(void) {
 
 VarObject::operator string(void) {
 	return ToString();
+}
+
+VarObject::operator vector<VarObject>&(void) {
+	if(Type != TList) {
+		OPTERRORS(*this);
+		throw ErrorType;
+	}
+	return this->List;
+}
+
+VarObject::operator map<VarObject, VarObject>&(void) {
+	if(Type != TDict) {
+		OPTERRORS(*this);
+		throw ErrorType;
+	}
+	return this->Dict;
 }
 
 /* ++ -- ~ ! */
@@ -1787,57 +1825,58 @@ bool operator!(const VarObject &l) {
 		return !(l.String.length() != 0);
 	case TList:
 		return !(l.List.size() != 0);
+	case TDict:
+		return !(l.Dict.size() != 0);
 	}
 }
 
 /* [] */
-VarObject VarObject::operator[](size_t idx) {
-	if(Type != TList) {
-		OPTERRORS(*this);
-		throw ErrorType;
-	}
-	return this->List[idx];
-}
-
-VarObject VarObject::operator[](long long idx) {
-	if(Type != TList) {
-		OPTERRORS(*this);
-		throw ErrorType;
-	}
-	return this->List[idx];
-}
-
-VarObject VarObject::operator[](int idx) {
-	if(Type != TList) {
-		OPTERRORS(*this);
-		throw ErrorType;
-	}
-	return this->List[idx];
-}
-
-VarObject VarObject::operator[](const VarObject &idx) {
-	if(Type != TList) {
-		OPTERRORS(*this);
-		throw ErrorType;
-	}
-	switch(idx.Type) {
-	case TBool:
-		return this->List[idx.Bool];
-	case TInteger:
-		return this->List[idx.Integer];
+VarObject& VarObject::operator[](const VarObject &idx) {
+	switch(Type) {
+	case TList:
+		switch(idx.Type) {
+		case TBool:
+			return this->List[idx.Bool];
+		case TInteger:
+			return this->List[idx.Integer];
+		default:
+			OPTERRORS(*this);
+			throw ErrorType;
+		}
+	case TDict:
+		return this->Dict[idx];
 	default:
 		OPTERRORS(*this);
 		throw ErrorType;
 	}
-	return *this;
+}
+
+VarObject& VarObject::operator[](const long long &idx) {
+	return (*this)[VarObject(idx)];
+}
+
+VarObject& VarObject::operator[](const int &idx) {
+	return (*this)[VarObject(idx)];
+}
+
+VarObject& VarObject::operator[](const bool &idx) {
+	return (*this)[VarObject(idx)];
+}
+
+VarObject& VarObject::operator[](const double &idx) {
+	return (*this)[VarObject(idx)];
+}
+
+VarObject& VarObject::operator[](const string &idx) {
+	return (*this)[VarObject(idx)];
+}
+
+VarObject& VarObject::operator[](const char *idx) {
+	return (*this)[VarObject(idx)];
 }
 
 ostream& operator<<(ostream &other, const VarObject &me) {
-	stringstream ss;
-	me.ToStr(ss);
-	string s;
-	ss >> s;
-	return (other << s);
+	return me.ToStr(other);
 }
 
 ostream& operator<<(ostream &o, const __LIST_PRODUCE &me)

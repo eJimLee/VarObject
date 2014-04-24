@@ -30,42 +30,56 @@
 
 using namespace var;
 
-stringstream& VarObject::ToStr(stringstream &s) const {
+ostream& VarObject::ToStr(ostream &o) const {
 	switch(Type) {
 	case TNull:
-		s << "null";
+		o << "null";
 		break;
 	case TInteger:
-		s << Integer;
+		o << Integer;
 		break;
 	case TFloat:
-		s << Float;
+		o << Float;
 		break;
 	case TBool:
-		s << (Bool ? "True" : "False");
+		o << (Bool ? "True" : "False");
 		break;
 	case TString:
-		s << String;
+		o << String;
 		break;
 	case TList:
 	{
-		s << "[";
+		o << "[";
 		size_t len = List.size();
 		if(len > 0) {
-			List[0].ToStr(s);
+			List[0].ToStr(o);
 			for(size_t i = 1; i < len; i++) {
-				s << ",";
-				List[i].ToStr(s);
+				o << ",";
+				List[i].ToStr(o);
 			}
 		}
-		s << "]";
+		o << "]";
 		break;
 	}
-	default:
-		cerr << "translate unknown type (" << Type << ") to ostream" << endl;
-		throw;
+	case TDict:
+	{
+		o << "{";
+		map<VarObject, VarObject>::const_iterator it = Dict.begin();
+		it->first.ToStr(o);
+		o << ":";
+		it->second.ToStr(o);
+		it++;
+		for(; it != Dict.end(); it++) {
+			o << ",";
+			it->first.ToStr(o);
+			o << ":";
+			it->second.ToStr(o);
+		}
+		o << "}";
+		break;
 	}
-	return s;
+	}
+	return o;
 }
 
 long long VarObject::ToInteger(void) {
@@ -135,7 +149,7 @@ string VarObject::ToString(void) {
 	//return "";
 }
 
-void VarObject::FromInteger(long long i) {
+void VarObject::FromInteger(const long long &i) {
 	if(Type != TNull) {
 		Clear();
 	}
@@ -143,7 +157,7 @@ void VarObject::FromInteger(long long i) {
 	Integer = i;
 }
 
-void VarObject::FromFloat(double d) {
+void VarObject::FromFloat(const double &d) {
 	if(Type != TNull) {
 		Clear();
 	}
@@ -151,7 +165,7 @@ void VarObject::FromFloat(double d) {
 	Float = d;
 }
 
-void VarObject::FromBool(bool b) {
+void VarObject::FromBool(const bool &b) {
 	if(Type != TNull) {
 		Clear();
 	}
@@ -175,10 +189,18 @@ void VarObject::FromString(const char *s) {
 	String = s;
 }
 
-void VarObject::FromList(vector<VarObject> &list) {
+void VarObject::FromList(const vector<VarObject> &list) {
 	if(Type != TNull) {
 		Clear();
 	}
 	Type = TList;
 	List = list;
+}
+
+void VarObject::FromDict(const map<VarObject, VarObject> &dict) {
+	if(Type != TNull) {
+		Clear();
+	}
+	Type = TDict;
+	Dict = dict;
 }

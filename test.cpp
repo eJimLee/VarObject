@@ -75,6 +75,18 @@ void varobject_test(void)
 	INIT(l, LIST(i, d, s, b));
 	INIT(n, None);
 
+	map<Var, Var> a;
+	a["atest"] = 214;
+	map<Var, Var> m;
+	m[34] = 1;
+	m[5.3] = 2;
+	m["str1"] = 3;
+	m[string("str2")] = 4;
+	m[true] = 5;
+	m[l] = 6;
+	m[a] = 7;
+	INIT(dict, m);
+
 	cout << "pure VarObject operator: " << endl;
 
 	/* + - * / */
@@ -223,6 +235,15 @@ void varobject_test(void)
 
 	/* None */
 	TEST_OP_CHECK(n, == ,None);
+
+	TEST_OP(dict);
+	TEST_OP_CHECK(dict[34], ==, 1);
+	TEST_OP_CHECK(dict[5.3], ==, 2);
+	TEST_OP_CHECK(dict["str1"], ==, 3);
+	TEST_OP_CHECK(dict["str2"], ==, 4);
+	TEST_OP_CHECK(dict[true], ==, 5);
+	TEST_OP_CHECK(dict[l], ==, 6);
+	TEST_OP_CHECK(dict[a], ==, 7);
 }
 
 int main(void)

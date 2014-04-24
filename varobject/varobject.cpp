@@ -78,6 +78,12 @@ VarObject::VarObject(const vector<VarObject> &l) {
 	List = l;
 }
 
+VarObject::VarObject(const map<VarObject, VarObject> &d) {
+	Clear();
+	Type = TDict;
+	Dict = d;
+}
+
 VarObject::VarObject(VarType t) {
 	Clear();
 	Type = t;
@@ -91,22 +97,22 @@ VarObject& VarObject::operator=(const VarObject &src) {
 	return *this;
 }
 
-VarObject& VarObject::operator=(long long i) {
+VarObject& VarObject::operator=(const long long &i) {
 	FromInteger(i);
 	return *this;
 }
 
-VarObject& VarObject::operator=(int i) {
+VarObject& VarObject::operator=(const int &i) {
 	FromInteger(i);
 	return *this;
 }
 
-VarObject& VarObject::operator=(double d) {
+VarObject& VarObject::operator=(const double &d) {
 	FromFloat(d);
 	return *this;
 }
 
-VarObject& VarObject::operator=(bool b) {
+VarObject& VarObject::operator=(const bool &b) {
 	FromBool(b);
 	return *this;
 }
@@ -121,8 +127,19 @@ VarObject& VarObject::operator=(const char *s) {
 	return *this;
 }
 
-VarObject& VarObject::operator=(vector<VarObject> &list) {
+VarObject& VarObject::operator=(const vector<VarObject> &list) {
 	FromList(list);
+	return *this;
+}
+
+VarObject& VarObject::operator=(const map<VarObject, VarObject> &dict) {
+	FromDict(dict);
+	return *this;
+}
+
+VarObject& VarObject::operator=(const VarType &t) {
+	Clear();
+	Type = t;
 	return *this;
 }
 
@@ -149,9 +166,9 @@ void VarObject::Copy(const VarObject &src) {
 	case TList:
 		List = src.List;
 		break;
-	default:
-		cerr << "copy value from unknwon type (" << Type << ")" << endl;
-		throw;
+	case TDict:
+		Dict = src.Dict;
+		break;
 	}
 	Type = src.Type;
 }
@@ -162,6 +179,7 @@ void VarObject::Clear(void) {
 	Bool = false;
 	String.clear();
 	List.clear();
+	Dict.clear();
 }
 
 }

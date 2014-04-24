@@ -39,7 +39,7 @@ namespace var {
 	f(TString) \
 	f(TList) \
 	f(TBool) \
-	/* f(TDict) */
+	f(TDict)
 
 #define TypeDef(n) n,
 typedef enum {
