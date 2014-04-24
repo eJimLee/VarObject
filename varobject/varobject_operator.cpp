@@ -981,19 +981,7 @@ bool operator<(const VarObject &left, const VarObject &right) {
 	{
 		switch(right.Type) {
 		case TList:
-		{
-			size_t llen = left.List.size();
-			size_t rlen = right.List.size();
-			for(size_t i = 0; i < llen && i < rlen; i++) {
-				if(left.List[i] < right.List[i]) {
-					return true;
-				}
-				if(left.List[i] > right.List[i]) {
-					return false;
-				}
-			}
-			return llen < rlen;
-		}
+			return (left.List < right.List);
 		case TString:
 			return true;
 		default:
@@ -1881,17 +1869,7 @@ ostream& operator<<(ostream &other, const VarObject &me) {
 
 ostream& operator<<(ostream &o, const __LIST_PRODUCE &me)
 {
-	o << "[";
-	size_t len = me.size();
-	if(len > 0) {
-		o << me[0];
-		for(size_t i = 1; i < len; i++) {
-			o << ",";
-			o << me[i];
-		}
-	}
-	o << "]";
-	return o;
+	return (o << VarObject(me));
 }
 
 }

@@ -230,8 +230,10 @@ void varobject_test(void)
 	TEST_OP_CHECK(l[2], ==, "abc");
 
 	/* LIST */
-	Var l2 = LIST(b, i, s, l, 1, 2.2, true, "kkk", LIST(i, i, i));
-	TEST_OP(l2);
+#define L LIST(b, i, s, l, 1, 2.2, true, "kkk", LIST(i, i, i))
+	TEST_OP(L);
+	Var l2 = L;
+	TEST_OP_CHECK(l2, ==, L);
 
 	/* None */
 	TEST_OP_CHECK(n, == ,None);
@@ -244,6 +246,11 @@ void varobject_test(void)
 	TEST_OP_CHECK(dict[true], ==, 5);
 	TEST_OP_CHECK(dict[l], ==, 6);
 	TEST_OP_CHECK(dict[a], ==, 7);
+
+	TEST_OP_CHECK(l, <, LIST(i + 1));
+	TEST_OP_CHECK(l, <, LIST(i, d + 1));
+	TEST_OP_CHECK(l, <, LIST(i, d, s + "z"));
+	TEST_OP_CHECK(l, <=, LIST(i, d, s, b));
 }
 
 int main(void)

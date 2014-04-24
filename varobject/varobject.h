@@ -479,6 +479,10 @@ public:
 		this->push_back(VarObject(r));
 		return *this;
 	}
+	__LIST_PRODUCE& operator,(const map<VarObject, VarObject> &r) {
+		this->push_back(VarObject(r));
+		return *this;
+	}
 	friend ostream& operator<<(ostream &o, const __LIST_PRODUCE &me);
 };
 /* support nested macro LIST for 5 times */
