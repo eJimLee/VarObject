@@ -32,119 +32,167 @@
 namespace var {
 
 VarObject::VarObject(void) {
-	Clear();
 	Type = TNull;
 }
 
+VarObject::VarObject(const VarObject &o) {
+	if(o.Type == TObject) {
+		cerr << "VarObject::" << __func__ << "(const VarObject &o)"
+			<< " not support TObject Type" << endl;
+		throw InvalidArg;
+	}
+	Copy(o);
+}
+
 VarObject::VarObject(long long i) {
-	Clear();
 	Type = TInteger;
 	Integer = i;
 }
-
 VarObject::VarObject(int i) {
-	Clear();
 	Type = TInteger;
 	Integer = i;
 }
 
 VarObject::VarObject(double f) {
-	Clear();
 	Type = TFloat;
 	Float = f;
 }
 
 VarObject::VarObject(bool b) {
-	Clear();
 	Type = TBool;
 	Bool = b;
 }
 
 VarObject::VarObject(string s) {
-	Clear();
 	Type = TString;
 	String = s;
 }
 
 VarObject::VarObject(const char *s) {
-	Clear();
 	Type = TString;
 	String = s;
 }
 
-VarObject::VarObject(const vector<VarObject> &l) {
-	Clear();
+VarObject::VarObject(const VarList &l) {
 	Type = TList;
 	List = l;
 }
 
 VarObject::VarObject(const map<VarObject, VarObject> &d) {
-	Clear();
 	Type = TDict;
 	Dict = d;
 }
 
 VarObject::VarObject(VarType t) {
-	Clear();
 	Type = t;
+}
+
+VarObject::VarObject(VarType t, string s) {
+	if(t != TObject) {
+		cerr << "VarObject::" << __func__ << "(VarType t, string s)"
+			<< " Only support TObject Type" << endl;
+		throw InvalidArg;
+	}
+	Type = TObject;
+	String = s;
+}
+
+VarObject::VarObject(VarType t, const char *s) {
+	if(t != TObject) {
+		cerr << "VarObject::" << __func__ << "(VarType t, const char s)"
+			<< " Only support TObject Type" << endl;
+		throw InvalidArg;
+	}
+	Type = TObject;
+	String = s;
+}
+
+VarObject::~VarObject(void) {
+	Clear();
 }
 
 VarObject& VarObject::operator=(const VarObject &src) {
 	if(Type != TNull) {
 		Clear();
 	}
+	if(Type == TObject && Type != TObject) {
+		cerr << "TObject variable only support to be assigned from TObject" << endl;
+		throw InvalidArg;
+	}
 	Copy(src);
 	return *this;
 }
 
+void VarObjectTypeCheck(const VarObject *o, VarType t) {
+	if(o->GetType() == TObject && t != TObject) {
+		cerr << "TObject variable only support to be assigned from TObject" << endl;
+		throw InvalidArg;
+	}
+}
+
 VarObject& VarObject::operator=(const long long &i) {
+	VarObjectTypeCheck(this, TInteger);
 	FromInteger(i);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const int &i) {
+	VarObjectTypeCheck(this, TInteger);
 	FromInteger(i);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const double &d) {
+	VarObjectTypeCheck(this, TFloat);
 	FromFloat(d);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const bool &b) {
+	VarObjectTypeCheck(this, TBool);
 	FromBool(b);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const string &s) {
+	VarObjectTypeCheck(this, TString);
 	FromString(s);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const char *s) {
+	VarObjectTypeCheck(this, TString);
 	FromString(s);
 	return *this;
 }
 
-VarObject& VarObject::operator=(const vector<VarObject> &list) {
+VarObject& VarObject::operator=(const VarList &list) {
+	VarObjectTypeCheck(this, TList);
 	FromList(list);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const map<VarObject, VarObject> &dict) {
+	VarObjectTypeCheck(this, TDict);
 	FromDict(dict);
 	return *this;
 }
 
 VarObject& VarObject::operator=(const VarType &t) {
+	VarObjectTypeCheck(this, t);
 	Clear();
 	Type = t;
 	return *this;
 }
 
-VarType VarObject::GetType(void) {
+VarType VarObject::GetType(void) const{
 	return this->Type;
+}
+
+VarObject* VarObject::CopySelf(void) const {
+	VarObject *new_instance = new VarObject();
+	*new_instance = *this;
+	return new_instance;
 }
 
 void VarObject::Copy(const VarObject &src) {
@@ -161,6 +209,9 @@ void VarObject::Copy(const VarObject &src) {
 		Float = src.Float;
 		break;
 	case TString:
+		String = src.String;
+		break;
+	case TObject:
 		String = src.String;
 		break;
 	case TList:

@@ -253,8 +253,46 @@ void varobject_test(void)
 	TEST_OP_CHECK(l, <=, LIST(i, d, s, b));
 }
 
+#define TESTOBJECT_OP(exp) \
+	do{ \
+		try { \
+			cout << "Result: {" << #exp << "} = " << exp << endl; \
+		} \
+		catch(Exception &e) { \
+			cerr << "Error: exp \"" << #exp << "\" throw " << e << " exception" << endl; \
+		} \
+	}while(0)
+
+class TestObject : public Var {
+public:
+	TestObject(void) : Var(TObject, "TestObject") {
+		static int i = 0;
+		id = i++;
+	}
+	VarObject* CopySelf(void) const {
+		TestObject *new_instance = new TestObject();
+		*new_instance = *this;
+		return new_instance;
+	}
+	virtual ostream& ToStr(ostream &o) const {
+		o << String << "(id: " << id << ")";
+		return o;
+	}
+private:
+	int id;
+};
+
+void varobject_test_overload() {
+	TestObject t1, t2, t3;
+	TESTOBJECT_OP(t1);
+	TESTOBJECT_OP(t2);
+	TESTOBJECT_OP(t3);
+}
+
 int main(void)
 {
 	varobject_test();
+	varobject_test_overload();
+
 	return 0;
 }

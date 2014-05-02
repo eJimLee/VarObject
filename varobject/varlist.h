@@ -24,46 +24,36 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef __VARTYPE_H__
-#define __VARTYPE_H__
+#ifndef __VARLIST_H__
+#define __VARLIST_H__
 
-#include <ostream>
+#include <vector>
 
 namespace var {
 
-#define TypeHelper(f) \
-	f(TNull) \
-	/* f(TUnsigned) */ \
-	f(TInteger) \
-	f(TBool) \
-	f(TFloat) \
-	f(TString) \
-	f(TObject) \
-	f(TList) \
-	f(TDict)
+using namespace std;
 
-#define TypeDef(n) n,
-typedef enum {
-	TypeHelper(TypeDef)
-}VarType;
-#undef TypeDef
+class VarObject;
 
-#define ExceptionHelper(f) \
-	f(ZeroDivisor) \
-	f(ErrorType) \
-	f(InvalidArg)
+class VarList : public vector<VarObject*> {
+public:
+	VarList(void);
+	VarList(const VarList &v);
+	~VarList(void);
 
-#define ExceptionDef(n) n,
-typedef enum {
-	ExceptionHelper(ExceptionDef)
-}Exception;
-#undef ExceptionDef
+public:
+	void clear(void);
+	void push_back(const VarObject *src);
 
+public:
+	VarList& operator=(const VarList &src);
+	friend bool operator==(const VarList &left, const VarList &right);
+	friend bool operator<(const VarList &left, const VarList &right);
 
-std::ostream& operator<<(std::ostream &o, VarType &t);
-std::ostream& operator<<(std::ostream &o, Exception &t);
+private:
+	void Destroy(void);
+};
 
 }
-
 
 #endif

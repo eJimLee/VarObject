@@ -24,46 +24,79 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef __VARTYPE_H__
-#define __VARTYPE_H__
+#include "varlist.h"
+#include "varobject.h"
 
-#include <ostream>
+using namespace std;
 
 namespace var {
 
-#define TypeHelper(f) \
-	f(TNull) \
-	/* f(TUnsigned) */ \
-	f(TInteger) \
-	f(TBool) \
-	f(TFloat) \
-	f(TString) \
-	f(TObject) \
-	f(TList) \
-	f(TDict)
-
-#define TypeDef(n) n,
-typedef enum {
-	TypeHelper(TypeDef)
-}VarType;
-#undef TypeDef
-
-#define ExceptionHelper(f) \
-	f(ZeroDivisor) \
-	f(ErrorType) \
-	f(InvalidArg)
-
-#define ExceptionDef(n) n,
-typedef enum {
-	ExceptionHelper(ExceptionDef)
-}Exception;
-#undef ExceptionDef
-
-
-std::ostream& operator<<(std::ostream &o, VarType &t);
-std::ostream& operator<<(std::ostream &o, Exception &t);
-
+VarList::VarList(void) {
 }
 
+VarList::VarList(const VarList &v) {
+	VarList::const_iterator it;
+	for(it = v.begin(); it != v.end(); it++) {
+		push_back(*it);
+	}
+}
 
-#endif
+VarList::~VarList(void) {
+	Destroy();
+}
+
+void VarList::clear(void) {
+	Destroy();
+	VarList::vector<VarObject*>::clear();
+}
+
+void VarList::push_back(const VarObject *src) {
+	VarList::vector<VarObject*>::push_back(src->CopySelf());
+}
+
+VarList& VarList::operator=(const VarList &src) {
+	clear();
+	VarList::const_iterator it;
+	for(it = src.begin(); it != src.end(); it++) {
+		push_back(*it);
+	}
+	return *this;
+}
+
+bool operator==(const VarList &left, const VarList &right) {
+	size_t llen = left.size();
+	size_t rlen = right.size();
+	if(llen != rlen)
+		return false;
+	for(size_t i = 0; i < llen; i++) {
+		if(*(left[i]) != *(right[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool operator<(const VarList &left, const VarList &right) {
+	size_t llen = left.size();
+	size_t rlen = right.size();
+	for(size_t i = 0; i < llen; i++) {
+		if(i == rlen)
+			return false;
+		if(*(left[i]) > *(right[i]))
+			return false;
+		if(*(left[i]) < *(right[i]))
+			return true;
+	}
+	if(llen == rlen)
+		return false;
+	return true;
+}
+
+void VarList::Destroy(void) {
+	VarList::const_iterator it;
+	for(it = begin(); it != end(); it++) {
+		delete *it;
+	}
+}
+
+}

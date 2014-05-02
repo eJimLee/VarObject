@@ -47,15 +47,18 @@ ostream& VarObject::ToStr(ostream &o) const {
 	case TString:
 		o << String;
 		break;
+	case TObject:
+		o << "Object(" << String << ")";
+		break;
 	case TList:
 	{
 		o << "[";
 		size_t len = List.size();
 		if(len > 0) {
-			List[0].ToStr(o);
+			List[0]->ToStr(o);
 			for(size_t i = 1; i < len; i++) {
 				o << ",";
-				List[i].ToStr(o);
+				List[i]->ToStr(o);
 			}
 		}
 		o << "]";
@@ -100,12 +103,9 @@ long long VarObject::ToInteger(void) {
 		ss >> retval;
 		return retval;
 	}
-	case TList:
-		cerr << "can't transform value from " << Type << " to long long" << endl;
-		throw;
 	default:
 		cerr << "transform value from unknwon type (" << Type << ") to long long" << endl;
-		throw;
+		throw ErrorType;
 	}
 	return 0;
 }
@@ -129,11 +129,9 @@ double VarObject::ToFloat(void) {
 		ss >> retval;
 		return retval;
 	}
-	case TList:
-		throw;
 	default:
 		cerr << "transform value from unknwon type (" << Type << ") to double" << endl;
-		throw;
+		throw ErrorType;
 	}
 	return 0.0;
 }
@@ -144,7 +142,7 @@ string VarObject::ToString(void) {
 		return String;
 	default:
 		cerr << "can't transform value from " << Type << " to string" << endl;
-		throw;
+		throw ErrorType;
 	}
 	//return "";
 }
@@ -189,7 +187,7 @@ void VarObject::FromString(const char *s) {
 	String = s;
 }
 
-void VarObject::FromList(const vector<VarObject> &list) {
+void VarObject::FromList(const VarList &list) {
 	if(Type != TNull) {
 		Clear();
 	}
