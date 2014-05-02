@@ -44,7 +44,6 @@ VarObject operator+(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -137,7 +136,7 @@ VarObject operator+(const VarObject &left, const VarObject &right) {
 	}
 	case TDict:
 		OPTERROR(left, right);
-		throw;
+		throw ErrorType;
 	}
 	return tmp;
 }
@@ -149,7 +148,6 @@ VarObject operator-(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -215,12 +213,10 @@ VarObject operator-(const VarObject &left, const VarObject &right) {
 	}
 	case TString:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TList:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -235,7 +231,6 @@ VarObject operator*(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -351,7 +346,6 @@ VarObject operator/(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -429,18 +423,16 @@ VarObject operator/(const VarObject &left, const VarObject &right) {
 			break;
 		default:
 			OPTERROR(left, right);
-			throw;
+			throw ErrorType;
 		}
 		return tmp;
 	}
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -455,7 +447,6 @@ VarObject operator&(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -492,16 +483,13 @@ VarObject operator&(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -516,7 +504,6 @@ VarObject operator|(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -553,7 +540,7 @@ VarObject operator|(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
+		throw ErrorType;
 		return tmp;
 	case TString:
 		OPTERROR(left, right);
@@ -577,7 +564,6 @@ VarObject operator^(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -614,16 +600,13 @@ VarObject operator^(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -638,7 +621,6 @@ VarObject operator%(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -675,16 +657,13 @@ VarObject operator%(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -699,7 +678,6 @@ VarObject operator<<(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -736,16 +714,13 @@ VarObject operator<<(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -760,7 +735,6 @@ VarObject operator>>(const VarObject &left, const VarObject &right) {
 	case TNull:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TBool:
 	{
 		switch(right.Type) {
@@ -797,16 +771,13 @@ VarObject operator>>(const VarObject &left, const VarObject &right) {
 	}
 	case TFloat:
 		OPTERROR(left, right);
-		throw;
-		return tmp;
+		throw ErrorType;
 	case TString:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TList:
 		OPTERROR(left, right);
 		throw ErrorType;
-		return tmp;
 	case TDict:
 		OPTERROR(left, right);
 		throw ErrorType;
@@ -1867,8 +1838,7 @@ ostream& operator<<(ostream &other, const VarObject &me) {
 	return me.ToStr(other);
 }
 
-ostream& operator<<(ostream &o, const __LIST_PRODUCE &me)
-{
+ostream& operator<<(ostream &o, const __LIST_PRODUCE &me) {
 	return (o << VarObject(me));
 }
 

@@ -37,6 +37,11 @@ namespace var {
 
 using namespace std;
 
+class VarObject;
+typedef VarObject Var;
+typedef vector<VarObject> VarList;
+typedef map<VarObject, VarObject> VarDict;
+
 class VarObject {
 public:
 	/* initial */
@@ -52,7 +57,7 @@ public:
 	VarObject(VarType t);
 
 public:
-	VarType GetType(void);
+	VarType GetType(void) const;
 
 public:
 	/* cout << obj */
@@ -491,8 +496,6 @@ public:
 #define __LIST(...) ___LIST(__VA_ARGS__)
 #define _LIST(...) __LIST(__VA_ARGS__)
 #define LIST(...) _LIST(__VA_ARGS__)
-
-typedef VarObject Var;
 
 class __None : public VarObject {
 public:

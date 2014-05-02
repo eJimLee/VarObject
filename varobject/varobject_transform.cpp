@@ -102,10 +102,10 @@ long long VarObject::ToInteger(void) {
 	}
 	case TList:
 		cerr << "can't transform value from " << Type << " to long long" << endl;
-		throw;
+		throw ErrorType;
 	default:
 		cerr << "transform value from unknwon type (" << Type << ") to long long" << endl;
-		throw;
+		throw ErrorType;
 	}
 	return 0;
 }
@@ -116,7 +116,7 @@ double VarObject::ToFloat(void) {
 		return 0.0;
 	case TBool:
 		cerr << "can't transform value from " << Type << " to double" << endl;
-		throw;
+		throw ErrorType;
 	case TInteger:
 		return (double) Integer;
 	case TFloat:
@@ -130,10 +130,11 @@ double VarObject::ToFloat(void) {
 		return retval;
 	}
 	case TList:
-		throw;
+		cerr << "can't transform value from " << Type << " to double" << endl;
+		throw ErrorType;
 	default:
 		cerr << "transform value from unknwon type (" << Type << ") to double" << endl;
-		throw;
+		throw ErrorType;
 	}
 	return 0.0;
 }
@@ -144,9 +145,8 @@ string VarObject::ToString(void) {
 		return String;
 	default:
 		cerr << "can't transform value from " << Type << " to string" << endl;
-		throw;
+		throw ErrorType;
 	}
-	//return "";
 }
 
 void VarObject::FromInteger(const long long &i) {

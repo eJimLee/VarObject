@@ -32,60 +32,50 @@
 namespace var {
 
 VarObject::VarObject(void) {
-	Clear();
 	Type = TNull;
 }
 
 VarObject::VarObject(long long i) {
-	Clear();
 	Type = TInteger;
 	Integer = i;
 }
 
 VarObject::VarObject(int i) {
-	Clear();
 	Type = TInteger;
 	Integer = i;
 }
 
 VarObject::VarObject(double f) {
-	Clear();
 	Type = TFloat;
 	Float = f;
 }
 
 VarObject::VarObject(bool b) {
-	Clear();
 	Type = TBool;
 	Bool = b;
 }
 
 VarObject::VarObject(string s) {
-	Clear();
 	Type = TString;
 	String = s;
 }
 
 VarObject::VarObject(const char *s) {
-	Clear();
 	Type = TString;
 	String = s;
 }
 
 VarObject::VarObject(const vector<VarObject> &l) {
-	Clear();
 	Type = TList;
 	List = l;
 }
 
 VarObject::VarObject(const map<VarObject, VarObject> &d) {
-	Clear();
 	Type = TDict;
 	Dict = d;
 }
 
 VarObject::VarObject(VarType t) {
-	Clear();
 	Type = t;
 }
 
@@ -143,8 +133,8 @@ VarObject& VarObject::operator=(const VarType &t) {
 	return *this;
 }
 
-VarType VarObject::GetType(void) {
-	return this->Type;
+VarType VarObject::GetType(void) const {
+	return Type;
 }
 
 void VarObject::Copy(const VarObject &src) {

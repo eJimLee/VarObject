@@ -25,7 +25,7 @@
 
 TARGET ?= test
 CXX ?= g++
-CXXFLAGS ?= -g -Werror
+CXXFLAGS ?= -g -Wall -Werror -Wno-return-type
 LINKFLAGS ?=
 INCLUDES ?=
 BUILD_DIR ?= build
