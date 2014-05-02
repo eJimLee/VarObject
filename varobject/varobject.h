@@ -52,8 +52,8 @@ public:
 	VarObject(bool b);
 	VarObject(string s);
 	VarObject(const char *s);
-	VarObject(const vector<VarObject> &l);
-	VarObject(const map<VarObject, VarObject> &d);
+	VarObject(const VarList &l);
+	VarObject(const VarDict &d);
 	VarObject(VarType t);
 
 public:
@@ -68,8 +68,8 @@ public:
 	operator int(void);
 	operator double(void);
 	operator string(void);
-	operator vector<VarObject>&(void);
-	operator map<VarObject, VarObject>&(void);
+	operator VarList&(void);
+	operator VarDict&(void);
 
 public:
 	/* operator */
@@ -81,8 +81,8 @@ public:
 	VarObject& operator=(const bool &b);
 	VarObject& operator=(const string &s);
 	VarObject& operator=(const char *s);
-	VarObject& operator=(const vector<VarObject> &list);
-	VarObject& operator=(const map<VarObject, VarObject> &dict);
+	VarObject& operator=(const VarList &list);
+	VarObject& operator=(const VarDict &dict);
 	VarObject& operator=(const VarType &t);
 
 	/* + */
@@ -93,14 +93,14 @@ public:
 	friend VarObject operator+(const VarObject &l, bool r);
 	friend VarObject operator+(const VarObject &l, string &r);
 	friend VarObject operator+(const VarObject &l, const char *r);
-	friend VarObject operator+(const VarObject &l, vector<VarObject> &r);
+	friend VarObject operator+(const VarObject &l, VarList &r);
 	friend VarObject operator+(long long l, const VarObject &r);
 	friend VarObject operator+(int l, const VarObject &r);
 	friend VarObject operator+(double l, const VarObject &r);
 	friend VarObject operator+(bool l, const VarObject &r);
 	friend VarObject operator+(string &l, const VarObject &r);
 	friend VarObject operator+(const char *l, const VarObject &r);
-	friend VarObject operator+(vector<VarObject> &l, const VarObject &r);
+	friend VarObject operator+(VarList &l, const VarObject &r);
 
 	/* - */
 	friend VarObject operator-(const VarObject &l, const VarObject &r);
@@ -109,13 +109,13 @@ public:
 	friend VarObject operator-(const VarObject &l, double r);
 	friend VarObject operator-(const VarObject &l, bool r);
 	//friend VarObject operator-(const VarObject &l, string &r);
-	//friend VarObject operator-(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator-(const VarObject &l, VarList &r);
 	friend VarObject operator-(long long l, const VarObject &r);
 	friend VarObject operator-(int l, const VarObject &r);
 	friend VarObject operator-(double l, const VarObject &r);
 	friend VarObject operator-(bool l, const VarObject &r);
 	//friend VarObject operator-(string l, const VarObject &r);
-	//friend VarObject operator-(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator-(VarList &l, const VarObject &r);
 
 	/* * */
 	friend VarObject operator*(const VarObject &l, const VarObject &r);
@@ -124,13 +124,13 @@ public:
 	friend VarObject operator*(const VarObject &l, double r);
 	friend VarObject operator*(const VarObject &l, bool r);
 	//friend VarObject operator*(const VarObject &l, string &r);
-	//friend VarObject operator*(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator*(const VarObject &l, VarList &r);
 	friend VarObject operator*(long long l, const VarObject &r);
 	friend VarObject operator*(int l, const VarObject &r);
 	friend VarObject operator*(double l, const VarObject &r);
 	friend VarObject operator*(bool l, const VarObject &r);
 	//friend VarObject operator*(string l, const VarObject &r);
-	//friend VarObject operator*(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator*(VarList &l, const VarObject &r);
 
 	/* / */
 	friend VarObject operator/(const VarObject &l, const VarObject &r);
@@ -139,13 +139,13 @@ public:
 	friend VarObject operator/(const VarObject &l, double r);
 	friend VarObject operator/(const VarObject &l, bool r);
 	//friend VarObject operator/(const VarObject &l, string &r);
-	//friend VarObject operator/(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator/(const VarObject &l, VarList &r);
 	friend VarObject operator/(long long l, const VarObject &r);
 	friend VarObject operator/(int l, const VarObject &r);
 	friend VarObject operator/(double l, const VarObject &r);
 	friend VarObject operator/(bool l, const VarObject &r);
 	//friend VarObject operator/(string &l, const VarObject &r);
-	//friend VarObject operator/(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator/(VarList &l, const VarObject &r);
 
 	/* & */
 	friend VarObject operator&(const VarObject &l, const VarObject &r);
@@ -154,13 +154,13 @@ public:
 	friend VarObject operator&(const VarObject &l, bool r);
 	//friend VarObject operator&(const VarObject &l, double r);
 	//friend VarObject operator&(const VarObject &l, string &r);
-	//friend VarObject operator&(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator&(const VarObject &l, VarList &r);
 	friend VarObject operator&(long long l, const VarObject &r);
 	friend VarObject operator&(int l, const VarObject &r);
 	friend VarObject operator&(bool l, const VarObject &r);
 	//friend VarObject operator&(double l, const VarObject &r);
 	//friend VarObject operator&(string &l, const VarObject &r);
-	//friend VarObject operator&(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator&(VarList &l, const VarObject &r);
 
 	/* | */
 	friend VarObject operator|(const VarObject &l, const VarObject &r);
@@ -169,13 +169,13 @@ public:
 	friend VarObject operator|(const VarObject &l, bool r);
 	//friend VarObject operator|(const VarObject &l, double r);
 	//friend VarObject operator|(const VarObject &l, string &r);
-	//friend VarObject operator|(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator|(const VarObject &l, VarList &r);
 	friend VarObject operator|(long long l, const VarObject &r);
 	friend VarObject operator|(int l, const VarObject &r);
 	friend VarObject operator|(bool l, const VarObject &r);
 	//friend VarObject operator|(double l, const VarObject &r);
 	//friend VarObject operator|(string &l, const VarObject &r);
-	//friend VarObject operator|(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator|(VarList &l, const VarObject &r);
 
 	/* ^ */
 	friend VarObject operator^(const VarObject &l, const VarObject &r);
@@ -184,13 +184,13 @@ public:
 	friend VarObject operator^(const VarObject &l, bool r);
 	//friend VarObject operator^(const VarObject &l, double r);
 	//friend VarObject operator^(const VarObject &l, string &r);
-	//friend VarObject operator^(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator^(const VarObject &l, VarList &r);
 	friend VarObject operator^(long long l, const VarObject &r);
 	friend VarObject operator^(int l, const VarObject &r);
 	friend VarObject operator^(bool l, const VarObject &r);
 	//friend VarObject operator^(double l, const VarObject &r);
 	//friend VarObject operator^(string &l, const VarObject &r);
-	//friend VarObject operator^(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator^(VarList &l, const VarObject &r);
 
 	/* % */
 	friend VarObject operator%(const VarObject &l, const VarObject &r);
@@ -199,13 +199,13 @@ public:
 	friend VarObject operator%(const VarObject &l, bool r);
 	//friend VarObject operator%(const VarObject &l, double r);
 	//friend VarObject operator%(const VarObject &l, string &r);
-	//friend VarObject operator%(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator%(const VarObject &l, VarList &r);
 	friend VarObject operator%(long long l, const VarObject &r);
 	friend VarObject operator%(int l, const VarObject &r);
 	friend VarObject operator%(bool l, const VarObject &r);
 	//friend VarObject operator%(double l, const VarObject &r);
 	//friend VarObject operator%(string &l, const VarObject &r);
-	//friend VarObject operator%(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator%(VarList &l, const VarObject &r);
 
 	/* << */
 	friend VarObject operator<<(const VarObject &l, const VarObject &r);
@@ -214,13 +214,13 @@ public:
 	friend VarObject operator<<(const VarObject &l, bool r);
 	//friend VarObject operator<<(const VarObject &l, double r);
 	//friend VarObject operator<<(const VarObject &l, string &r);
-	//friend VarObject operator<<(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator<<(const VarObject &l, VarList &r);
 	friend VarObject operator<<(long long l, const VarObject &r);
 	friend VarObject operator<<(int l, const VarObject &r);
 	friend VarObject operator<<(bool l, const VarObject &r);
 	//friend VarObject operator<<(double l, const VarObject &r);
 	//friend VarObject operator<<(string &l, const VarObject &r);
-	//friend VarObject operator<<(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator<<(VarList &l, const VarObject &r);
 
 	/* >> */
 	friend VarObject operator>>(const VarObject &l, const VarObject &r);
@@ -229,13 +229,13 @@ public:
 	friend VarObject operator>>(const VarObject &l, bool r);
 	//friend VarObject operator>>(const VarObject &l, double r);
 	//friend VarObject operator>>(const VarObject &l, string &r);
-	//friend VarObject operator>>(const VarObject &l, vector<VarObject> &r);
+	//friend VarObject operator>>(const VarObject &l, VarList &r);
 	friend VarObject operator>>(long long l, const VarObject &r);
 	friend VarObject operator>>(int l, const VarObject &r);
 	friend VarObject operator>>(bool l, const VarObject &r);
 	//friend VarObject operator>>(double l, const VarObject &r);
 	//friend VarObject operator>>(string &l, const VarObject &r);
-	//friend VarObject operator>>(vector<VarObject> &l, const VarObject &r);
+	//friend VarObject operator>>(VarList &l, const VarObject &r);
 
 	/* += */
 	friend const VarObject& operator+=(VarObject &l, const VarObject &r);
@@ -245,7 +245,7 @@ public:
 	friend const VarObject& operator+=(VarObject &l, bool r);
 	friend const VarObject& operator+=(VarObject &l, string &r);
 	friend const VarObject& operator+=(VarObject &l, const char *r);
-	friend const VarObject& operator+=(VarObject &l, vector<VarObject> &r);
+	friend const VarObject& operator+=(VarObject &l, VarList &r);
 
 	/* -= */
 	friend const VarObject& operator-=(VarObject &l, const VarObject &r);
@@ -312,14 +312,14 @@ public:
 	friend bool operator<(const VarObject &l, bool r);
 	friend bool operator<(const VarObject &l, string &r);
 	friend bool operator<(const VarObject &l, const char *r);
-	friend bool operator<(const VarObject &l, vector<VarObject> &r);
+	friend bool operator<(const VarObject &l, VarList &r);
 	friend bool operator<(long long l, const VarObject &r);
 	friend bool operator<(int l, const VarObject &r);
 	friend bool operator<(double l, const VarObject &r);
 	friend bool operator<(bool l, const VarObject &r);
 	friend bool operator<(string &l, const VarObject &r);
 	friend bool operator<(const char *l, const VarObject &r);
-	friend bool operator<(vector<VarObject> &l, const VarObject &r);
+	friend bool operator<(VarList &l, const VarObject &r);
 
 	/* > */
 	friend bool operator>(const VarObject &l, const VarObject &r);
@@ -329,14 +329,14 @@ public:
 	friend bool operator>(const VarObject &l, bool r);
 	friend bool operator>(const VarObject &l, string &r);
 	friend bool operator>(const VarObject &l, const char *r);
-	friend bool operator>(const VarObject &l, vector<VarObject> &r);
+	friend bool operator>(const VarObject &l, VarList &r);
 	friend bool operator>(long long l, const VarObject &r);
 	friend bool operator>(int l, const VarObject &r);
 	friend bool operator>(double l, const VarObject &r);
 	friend bool operator>(bool l, const VarObject &r);
 	friend bool operator>(string &l, const VarObject &r);
 	friend bool operator>(const char *l, const VarObject &r);
-	friend bool operator>(vector<VarObject> &l, const VarObject &r);
+	friend bool operator>(VarList &l, const VarObject &r);
 
 	/* <= */
 	friend bool operator<=(const VarObject &l, const VarObject &r);
@@ -346,14 +346,14 @@ public:
 	friend bool operator<=(const VarObject &l, bool r);
 	friend bool operator<=(const VarObject &l, string &r);
 	friend bool operator<=(const VarObject &l, const char *r);
-	friend bool operator<=(const VarObject &l, vector<VarObject> &r);
+	friend bool operator<=(const VarObject &l, VarList &r);
 	friend bool operator<=(long long l, const VarObject &r);
 	friend bool operator<=(int l, const VarObject &r);
 	friend bool operator<=(double l, const VarObject &r);
 	friend bool operator<=(bool l, const VarObject &r);
 	friend bool operator<=(string &l, const VarObject &r);
 	friend bool operator<=(const char *l, const VarObject &r);
-	friend bool operator<=(vector<VarObject> &l, const VarObject &r);
+	friend bool operator<=(VarList &l, const VarObject &r);
 
 	/* >= */
 	friend bool operator>=(const VarObject &l, const VarObject &r);
@@ -363,14 +363,14 @@ public:
 	friend bool operator>=(const VarObject &l, bool r);
 	friend bool operator>=(const VarObject &l, string &r);
 	friend bool operator>=(const VarObject &l, const char *r);
-	friend bool operator>=(const VarObject &l, vector<VarObject> &r);
+	friend bool operator>=(const VarObject &l, VarList &r);
 	friend bool operator>=(long long l, const VarObject &r);
 	friend bool operator>=(int l, const VarObject &r);
 	friend bool operator>=(double l, const VarObject &r);
 	friend bool operator>=(bool l, const VarObject &r);
 	friend bool operator>=(string &l, const VarObject &r);
 	friend bool operator>=(const char *l, const VarObject &r);
-	friend bool operator>=(vector<VarObject> &l, const VarObject &r);
+	friend bool operator>=(VarList &l, const VarObject &r);
 
 	/* == */
 	friend bool operator==(const VarObject &l, const VarObject &r);
@@ -380,14 +380,14 @@ public:
 	friend bool operator==(const VarObject &l, bool r);
 	friend bool operator==(const VarObject &l, string &r);
 	friend bool operator==(const VarObject &l, const char *r);
-	friend bool operator==(const VarObject &l, vector<VarObject> &r);
+	friend bool operator==(const VarObject &l, VarList &r);
 	friend bool operator==(long long l, const VarObject &r);
 	friend bool operator==(int l, const VarObject &r);
 	friend bool operator==(double l, const VarObject &r);
 	friend bool operator==(bool l, const VarObject &r);
 	friend bool operator==(string &l, const VarObject &r);
 	friend bool operator==(const char *l, const VarObject &r);
-	friend bool operator==(vector<VarObject> &l, const VarObject &r);
+	friend bool operator==(VarList &l, const VarObject &r);
 
 	/* != */
 	friend bool operator!=(const VarObject &l, const VarObject &r);
@@ -397,14 +397,14 @@ public:
 	friend bool operator!=(const VarObject &l, bool r);
 	friend bool operator!=(const VarObject &l, string &r);
 	friend bool operator!=(const VarObject &l, const char *r);
-	friend bool operator!=(const VarObject &l, vector<VarObject> &r);
+	friend bool operator!=(const VarObject &l, VarList &r);
 	friend bool operator!=(long long l, const VarObject &r);
 	friend bool operator!=(int l, const VarObject &r);
 	friend bool operator!=(double l, const VarObject &r);
 	friend bool operator!=(bool l, const VarObject &r);
 	friend bool operator!=(string &l, const VarObject &r);
 	friend bool operator!=(const char *l, const VarObject &r);
-	friend bool operator!=(vector<VarObject> &l, const VarObject &r);
+	friend bool operator!=(VarList &l, const VarObject &r);
 
 	/* ++ -- ~ ! */
 	friend VarObject operator++(VarObject &l);
@@ -431,8 +431,8 @@ protected:
 		bool Bool;
 	};
 	string String;
-	vector<VarObject> List;
-	map<VarObject, VarObject> Dict;
+	VarList List;
+	VarDict Dict;
 
 private:
 	void Copy(const VarObject &src);
@@ -449,12 +449,12 @@ private:
 	void FromBool(const bool &b);
 	void FromString(const string &s);
 	void FromString(const char *s);
-	void FromList(const vector<VarObject> &list);
-	void FromDict(const map<VarObject, VarObject> &dict);
+	void FromList(const VarList &list);
+	void FromDict(const VarDict &dict);
 };
 
 /* some helper */
-class __LIST_PRODUCE : public vector<VarObject> {
+class __LIST_PRODUCE : public VarList {
 public:
 	__LIST_PRODUCE& operator,(const VarObject &r) {
 		this->push_back(r);
@@ -480,11 +480,11 @@ public:
 		this->push_back(VarObject(r));
 		return *this;
 	}
-	__LIST_PRODUCE& operator,(const vector<VarObject> &r) {
+	__LIST_PRODUCE& operator,(const VarList &r) {
 		this->push_back(VarObject(r));
 		return *this;
 	}
-	__LIST_PRODUCE& operator,(const map<VarObject, VarObject> &r) {
+	__LIST_PRODUCE& operator,(const VarDict &r) {
 		this->push_back(VarObject(r));
 		return *this;
 	}

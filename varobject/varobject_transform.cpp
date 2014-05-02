@@ -64,7 +64,7 @@ ostream& VarObject::ToStr(ostream &o) const {
 	case TDict:
 	{
 		o << "{";
-		map<VarObject, VarObject>::const_iterator it = Dict.begin();
+		VarDict::const_iterator it = Dict.begin();
 		it->first.ToStr(o);
 		o << ":";
 		it->second.ToStr(o);
@@ -189,7 +189,7 @@ void VarObject::FromString(const char *s) {
 	String = s;
 }
 
-void VarObject::FromList(const vector<VarObject> &list) {
+void VarObject::FromList(const VarList &list) {
 	if(Type != TNull) {
 		Clear();
 	}
@@ -197,7 +197,7 @@ void VarObject::FromList(const vector<VarObject> &list) {
 	List = list;
 }
 
-void VarObject::FromDict(const map<VarObject, VarObject> &dict) {
+void VarObject::FromDict(const VarDict &dict) {
 	if(Type != TNull) {
 		Clear();
 	}

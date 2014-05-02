@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <iostream>
-#include <sstream>
 #include "varobject.h"
 
 using namespace std;
@@ -993,7 +992,7 @@ VarObject operator+(const VarObject &l, string &r) {
 VarObject operator+(const VarObject &l, const char *r) {
 	return l + VarObject(r);
 }
-VarObject operator+(const VarObject &l, vector<VarObject> &r) {
+VarObject operator+(const VarObject &l, VarList &r) {
 	return l + VarObject(r);
 }
 VarObject operator+(long long l, const VarObject &r) {
@@ -1014,7 +1013,7 @@ VarObject operator+(string &l, const VarObject &r) {
 VarObject operator+(const char *l, const VarObject &r) {
 	return VarObject(l) + r;
 }
-VarObject operator+(vector<VarObject> &l, const VarObject &r) {
+VarObject operator+(VarList &l, const VarObject &r) {
 	return VarObject(l) + r;
 }
 
@@ -1115,7 +1114,7 @@ bool operator<(const VarObject &l, string &r) {
 bool operator<(const VarObject &l, const char *r) {
 	return l < VarObject(r);
 }
-bool operator<(const VarObject &l, vector<VarObject> &r) {
+bool operator<(const VarObject &l, VarList &r) {
 	return l < VarObject(r);
 }
 bool operator<(long long l, const VarObject &r) {
@@ -1136,7 +1135,7 @@ bool operator<(string &l, const VarObject &r) {
 bool operator<(const char *l, const VarObject &r) {
 	return VarObject(l) < r;
 }
-bool operator<(vector<VarObject> &l, const VarObject &r) {
+bool operator<(VarList &l, const VarObject &r) {
 	return VarObject(l) < r;
 }
 
@@ -1162,7 +1161,7 @@ bool operator>(const VarObject &l, string &r) {
 bool operator>(const VarObject &l, const char *r) {
 	return l > VarObject(r);
 }
-bool operator>(const VarObject &l, vector<VarObject> &r) {
+bool operator>(const VarObject &l, VarList &r) {
 	return l > VarObject(r);
 }
 bool operator>(long long l, const VarObject &r) {
@@ -1183,7 +1182,7 @@ bool operator>(string &l, const VarObject &r) {
 bool operator>(const char *l, const VarObject &r) {
 	return VarObject(l) > r;
 }
-bool operator>(vector<VarObject> &l, const VarObject &r) {
+bool operator>(VarList &l, const VarObject &r) {
 	return VarObject(l) > r;
 }
 
@@ -1212,7 +1211,7 @@ bool operator<=(const VarObject &l, string &r) {
 bool operator<=(const VarObject &l, const char *r) {
 	return l <= VarObject(r);
 }
-bool operator<=(const VarObject &l, vector<VarObject> &r) {
+bool operator<=(const VarObject &l, VarList &r) {
 	return l <= VarObject(r);
 }
 bool operator<=(long long l, const VarObject &r) {
@@ -1233,7 +1232,7 @@ bool operator<=(string &l, const VarObject &r) {
 bool operator<=(const char *l, const VarObject &r) {
 	return VarObject(l) <= r;
 }
-bool operator<=(vector<VarObject> &l, const VarObject &r) {
+bool operator<=(VarList &l, const VarObject &r) {
 	return VarObject(l) <= r;
 }
 
@@ -1262,7 +1261,7 @@ bool operator>=(const VarObject &l, string &r) {
 bool operator>=(const VarObject &l, const char *r) {
 	return l >= VarObject(r);
 }
-bool operator>=(const VarObject &l, vector<VarObject> &r) {
+bool operator>=(const VarObject &l, VarList &r) {
 	return l >= VarObject(r);
 }
 bool operator>=(long long l, const VarObject &r) {
@@ -1283,7 +1282,7 @@ bool operator>=(string &l, const VarObject &r) {
 bool operator>=(const char *l, const VarObject &r) {
 	return VarObject(l) >= r;
 }
-bool operator>=(vector<VarObject> &l, const VarObject &r) {
+bool operator>=(VarList &l, const VarObject &r) {
 	return VarObject(l) >= r;
 }
 
@@ -1306,7 +1305,7 @@ bool operator==(const VarObject &l, string &r) {
 bool operator==(const VarObject &l, const char *r) {
 	return l == VarObject(r);
 }
-bool operator==(const VarObject &l, vector<VarObject> &r) {
+bool operator==(const VarObject &l, VarList &r) {
 	return l == VarObject(r);
 }
 bool operator==(long long l, const VarObject &r) {
@@ -1327,7 +1326,7 @@ bool operator==(string &l, const VarObject &r) {
 bool operator==(const char *l, const VarObject &r) {
 	return VarObject(l) == r;
 }
-bool operator==(vector<VarObject> &l, const VarObject &r) {
+bool operator==(VarList &l, const VarObject &r) {
 	return VarObject(l) == r;
 }
 
@@ -1353,7 +1352,7 @@ bool operator!=(const VarObject &l, string &r) {
 bool operator!=(const VarObject &l, const char *r) {
 	return l != VarObject(r);
 }
-bool operator!=(const VarObject &l, vector<VarObject> &r) {
+bool operator!=(const VarObject &l, VarList &r) {
 	return l != VarObject(r);
 }
 bool operator!=(long long l, const VarObject &r) {
@@ -1374,7 +1373,7 @@ bool operator!=(string &l, const VarObject &r) {
 bool operator!=(const char *l, const VarObject &r) {
 	return VarObject(l) != r;
 }
-bool operator!=(vector<VarObject> &l, const VarObject &r) {
+bool operator!=(VarList &l, const VarObject &r) {
 	return VarObject(l) != r;
 }
 
@@ -1520,7 +1519,7 @@ const VarObject& operator+=(VarObject &l, string &r) {
 const VarObject& operator+=(VarObject &l, const char *r) {
 	return (l += VarObject(r));
 }
-const VarObject& operator+=(VarObject &l, vector<VarObject> &r) {
+const VarObject& operator+=(VarObject &l, VarList &r) {
 	return (l += VarObject(r));
 }
 
@@ -1694,7 +1693,7 @@ VarObject::operator string(void) {
 	return ToString();
 }
 
-VarObject::operator vector<VarObject>&(void) {
+VarObject::operator VarList&(void) {
 	if(Type != TList) {
 		OPTERRORS(*this);
 		throw ErrorType;
@@ -1702,7 +1701,7 @@ VarObject::operator vector<VarObject>&(void) {
 	return this->List;
 }
 
-VarObject::operator map<VarObject, VarObject>&(void) {
+VarObject::operator VarDict&(void) {
 	if(Type != TDict) {
 		OPTERRORS(*this);
 		throw ErrorType;

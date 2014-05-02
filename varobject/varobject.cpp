@@ -24,9 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <iostream>
-#include <sstream>
-
 #include "varobject.h"
 
 namespace var {
@@ -65,12 +62,12 @@ VarObject::VarObject(const char *s) {
 	String = s;
 }
 
-VarObject::VarObject(const vector<VarObject> &l) {
+VarObject::VarObject(const VarList &l) {
 	Type = TList;
 	List = l;
 }
 
-VarObject::VarObject(const map<VarObject, VarObject> &d) {
+VarObject::VarObject(const VarDict &d) {
 	Type = TDict;
 	Dict = d;
 }
@@ -117,12 +114,12 @@ VarObject& VarObject::operator=(const char *s) {
 	return *this;
 }
 
-VarObject& VarObject::operator=(const vector<VarObject> &list) {
+VarObject& VarObject::operator=(const VarList &list) {
 	FromList(list);
 	return *this;
 }
 
-VarObject& VarObject::operator=(const map<VarObject, VarObject> &dict) {
+VarObject& VarObject::operator=(const VarDict &dict) {
 	FromDict(dict);
 	return *this;
 }

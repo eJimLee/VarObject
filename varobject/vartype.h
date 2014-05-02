@@ -57,11 +57,9 @@ typedef enum {
 }Exception;
 #undef ExceptionDef
 
-
 std::ostream& operator<<(std::ostream &o, VarType &t);
 std::ostream& operator<<(std::ostream &o, Exception &t);
 
 }
-
 
 #endif
